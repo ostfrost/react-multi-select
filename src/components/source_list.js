@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import Column from "./column/column";
 import List from "./list/items_list";
+import SimpleItemList from "./list/simple_items_list";
 import NoItems from "./items/no_items";
 import Search from "./search/search";
 import SelectAll from "./items/select_all";
@@ -14,6 +15,7 @@ const SourceList = ({
   showSearch,
   filterItems,
   searchIcon,
+  simpleList,
   messages,
   showSelectAll,
   itemHeight,
@@ -32,6 +34,7 @@ const SourceList = ({
 }) => {
   const SearchRenderer = searchRenderer;
   const SelectAllRenderer = selectAllRenderer;
+  const ListComponent = !simpleList ? List : SimpleItemList;
   return (
     <Column>
       {showSearch && (
@@ -52,11 +55,12 @@ const SourceList = ({
           selectAllMessage={messages.selectAllMessage}
         />
       )}
-      <List
+      <ListComponent
         ref={getList}
         offset={1}
         items={filteredItems}
         itemHeight={itemHeight}
+        simpleList={simpleList}
         height={calculatedHeight}
         onClick={selectItem}
         selectedIds={selectedIds}
@@ -78,6 +82,7 @@ SourceList.propTypes = {
   searchIcon: PropTypes.any,
   showSearch: PropTypes.bool,
   showSelectAll: PropTypes.bool,
+  simpleList: PropTypes.bool,
   isAllSelected: PropTypes.bool,
   filterItems: PropTypes.func,
   messages: PropTypes.object,
